@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="el">
+<head,>
+<meta charset="UTF-8"/>
+<meta name="viewport"
+content="width=device-width,
+initial-scale=1"
+  <title>Live Αγώνες & Meme</title>
+  <link rel="stylesheet"
+href="style.css"/>
+</head>
+  <header>
+    <h1>Αγώνες Live</h>
+    <nav>
+    <ul>
+      <li>a href="#">live Αγώνες</
+a></li
+      <li>a href="#">Highlights
+a></li
+      <li>a href="#">Meme</a></li>
+      <ul>
+      <nav>
+      <header>
+      <main>
+        <section id="matches>
+           <h2>Ζωντανοί Αγώνες</h2>
+           <u1 class="matches-List">
+              <li>
+              Tarvet - Carlos Alcaraz
+    (2/72025)
+            <button class="watch-btn"
+    onclick="openstream("https://thedaddy.click/stream/stream-634.php")">
+    Δες,</button>
+    </li>
+    </ul>
+    </section>
+    </section>
+     </main>
+     <footer>
+     <p>c 2025 Αγώνες Live<?p>
+</footer>
+<script>
+  function openStream(url) {
+  window.open(url),  '_blank',
+'width=900,height=600');
+    }
+</script>
+</body>
+,/html>
