@@ -1,49 +1,62 @@
 <!DOCTYPE html>
 <html lang="el">
-<head,>
-<meta charset="UTF-8"/>
-<meta name="viewport"
-content="width=device-width,
-initial-scale=1"
-  <title>Live Αγώνες & Meme</title>
-  <link rel="stylesheet"
-href="style.css"/>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Αγώνες Live</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #fff;
+    color: #000;
+    margin: 20px;
+  }
+  a {
+    color: #d32f2f;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 8px;
+    display: inline-block;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  iframe {
+    margin-top: 20px;
+    width: 100%;
+    height: 480px;
+    border: 1px solid #d32f2f;
+    border-radius: 6px;
+    display: none;
+  }
+</style>
 </head>
-  <header>
-    <h1>Αγώνες Live</h>
-    <nav>
-    <ul>
-      <li>a href="#">live Αγώνες</
-a></li
-      <li>a href="#">Highlights
-a></li
-      <li>a href="#">Meme</a></li>
-      <ul>
-      <nav>
-      <header>
-      <main>
-        <section id="matches>
-           <h2>Ζωντανοί Αγώνες</h2>
-           <u1 class="matches-List">
-              <li>
-              Tarvet - Carlos Alcaraz
-    (2/72025)
-            <button class="watch-btn"
-    onclick="openstream("https://thedaddy.click/stream/stream-634.php")">
-    Δες,</button>
-    </li>
-    </ul>
-    </section>
-    </section>
-     </main>
-     <footer>
-     <p>c 2025 Αγώνες Live<?p>
-</footer>
+<body>
+
+<h1>Αγώνες Live</h1>
+<h2>Alcaraz - Tarvet</h2>
+
+<div>
+  <a onclick="loadStream('https://thedaddy.click/stream/stream-638.php')">Link 1 📺</a>
+  <a onclick="loadStream('https://example.com/stream2')">Link 2 📺</a>
+  <a onclick="loadStream('https://example.com/stream3')">Link 3 📺</a>
+  <a onclick="loadStream('https://example.com/stream4')">Link 4 📺</a>
+  <a onclick="loadStream('https://example.com/stream5')">Link 5 📺</a>
+  <a onclick="loadStream('https://example.com/stream6')">Link 6 📺</a>
+  <a onclick="loadStream('https://example.com/stream7')">Link 7 📺</a>
+  <a onclick="loadStream('https://example.com/stream8')">Link 8 📺</a>
+</div>
+
+<iframe id="stream" allowfullscreen></iframe>
+
 <script>
-  function openStream(url) {
-  window.open(url),  '_blank',
-'width=900,height=600');
-    }
+function loadStream(url) {
+  const iframe = document.getElementById('stream');
+  iframe.src = url;
+  iframe.style.display = 'block';
+  iframe.scrollIntoView({behavior: 'smooth'});
+}
 </script>
+
 </body>
-,/html>
+</html>
