@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <title>Αγώνες Σήμερα</title>
+  <style>
+    body {
+      background-color: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0 10px 50px 10px;
+    }
+    h1, h2 {
+      color: red;
+    }
+    .datetime {
+      font-size: 18px;
+      margin-bottom: 10px;
+      text-align: center;
+      color: #ffd700;
+    }
+    .buttons {
+      margin: 20px 0;
+      text-align: center;
+    }
+    .buttons button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      cursor: pointer;
+      border-radius: 10px;
+      font-weight: bold;
+      color: white;
+      font-size: 16px;
+    }
+    .buttons button.motogp {
+      background-color: black;
+    }
+    .buttons button.wrc {
+      background-color: orange;
+      color: white;
+    }
+    .category {
+      margin-top: 40px;
+      border-top: 2px solid red;
+      padding-top: 20px;
+    }
+    .match {
+      margin: 8px 0;
+      cursor: pointer;
+      color: #00ffff;
+      text-decoration: underline;
+    }
+    iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+      margin-top: 15px;
+    }
+    .iframe-wrapper {
+      margin-top: 10px;
+      position: relative;
+      background: #222;
+      border-radius: 8px;
+      padding-top: 30px;
+    }
+    .close-btn {
+      position: absolute;
+      top: 3px;
+      right: 8px;
+      background: red;
+      border: none;
+      color: white;
+      font-weight: bold;
+      padding: 2px 8px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    /* Dropdown styling */
+    #motogpDropdown {
+      display: none;
+      position: absolute;
+      background: #222;
+      border: 1px solid red;
+      border-radius: 5px;
+      margin-top: 5px;
+      z-index: 100;
+      min-width: 160px;
+      text-align: left;
+    }
+    #motogpDropdown div {
+      padding: 8px;
+      cursor: pointer;
+      color: white;
+    }
+    #motogpDropdown div:hover {
+      background-color: red;
+    }
+    /* Container for dropdown */
+    .dropdown-container {
+      display: inline-block;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="datetime" id="datetime"></div>
+
+  <script>
+    function updateDateTime() {
+      const now = new Date();
+      const greeceTime = new Date(now.toLocaleString("en-US", { timeZone: "Europe/Athens" }));
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const dateStr = greeceTime.toLocaleDateString('el-GR', options);
+      const timeStr = greeceTime.toLocaleTimeString('el-GR');
+      document.getElementById("datetime").innerHTML = `Ημερομηνία: ${dateStr} | Ώρα: ${timeStr}`;
+    }
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+
+    function showCategoryIframe(containerId, url) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      const iframe = container.querySelector('iframe');
+      if (iframe.src === url && container.style.display === "block") {
+        closeIframe(containerId);
+        return;
+      }
+      iframe.src = url;
+      container.style.display = "block";
+      container.scrollIntoView({behavior: 'smooth'});
+    }
+
+    function showButtonIframe(containerId, url) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      const iframe = container.querySelector('iframe');
+      if (iframe.src === url && container.style.display === "block") {
+        closeIframe(containerId);
+        return;
+      }
+      iframe.src = url;
+      container.style.display = "block";
+      container.scrollIntoView({behavior: 'smooth'});
+    }
+
+    function closeIframe(containerId) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      const iframe = container.querySelector('iframe');
+      iframe.src = '';
+      container.style.display = 'none';
+    }
+
+    function toggleDropdown(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.style.display = (el.style.display === "block") ? "none" : "block";
+    }
+
+    window.addEventListener('click', function(e) {
+      const dropdown = document.getElementById('motogpDropdown');
+      const button = document.querySelector('.motogp');
+      if (dropdown && button && !dropdown.contains(e.target) && !button.contains(e.target)) {
+        dropdown.style.display = 'none';
+      }
+    });
+  </script>
+
+  <div class="buttons">
+    <div class="dropdown-container">
+      <button class="motogp" onclick="toggleDropdown('motogpDropdown')">MotoGP ▼</button>
+      <div id="motogpDropdown">
+        <div onclick="showButtonIframe('motogpIframe', 'https://thedaddy.click/stream/stream-627.php'); toggleDropdown('motogpDropdown')">Ελληνικό Stream</div>
+        <div onclick="showButtonIframe('motogpIframe', 'https://thedaddy.click/stream/stream-32.php'); toggleDropdown('motogpDropdown')">Αγγλικό Stream</div>
+        <div onclick="showButtonIframe('motogpIframe', 'https://thedaddy.click/stream/stream-616.php'); toggleDropdown('motogpDropdown')">Κυπριακό Stream</div>
+      </div>
+    </div>
+
+    <button class="wrc" onclick="showButtonIframe('wrcIframe', 'https://thedaddy.click/stream/stream-607.php')">WRC</button>
+  </div>
+
+  <div id="motogpIframe" class="iframe-wrapper" style="display:none;">
+    <button class="close-btn" onclick="closeIframe('motogpIframe')">✖</button>
+    <iframe src="" allowfullscreen></iframe>
+  </div>
+
+  <div id="wrcIframe" class="iframe-wrapper" style="display:none;">
+    <button class="close-btn" onclick="closeIframe('wrcIframe')">✖</button>
+    <iframe src="" allowfullscreen></iframe>
+  </div>
+
+  <div class="category" id="eurobasket">
+    <h2>EuroBasket U20 - Playoffs</h2>
+    <div class="match" onclick="showCategoryIframe('eurobasketIframe', 'https://www.youtube.com/live/Gtni2r-lPmE?si=pKpwvL6enb0K8czt')">13:00 Ισραήλ - Ιταλία</div>
+    <div class="match" onclick="showCategoryIframe('eurobasketIframe', 'https://www.youtube.com/live/uxh7ogamz7E?si=ajQwxKclNZV9FExD')">15:30 Ισπανία - Σερβία</div>
+    <div class="match" onclick="showCategoryIframe('eurobasketIframe', 'https://ertflix.gr/epg/audition/prg.623531-ept3-live-2-4055421')">18:00 Ελλάδα - Γαλλία (ERT3)</div>
+    <div class="match" onclick="showCategoryIframe('eurobasketIframe', 'https://www.youtube.com/live/bWRlw7ha7UE?si=JOWu-WldODvsROpr')">20:30 Λιθουανία - Σλοβενία</div>
+
+    <h3 style="color: orange; margin-top:20px;">Θέσεις 9η - 16η</h3>
+    <div class="match" onclick="showCategoryIframe('eurobasketIframe', 'https://www.youtube.com/live/0IXAjR1xr94?si=3fsSIEi_JWxi7CwM')">13:00 Ρουμανία - Ισλανδία</div>
+    <div class="match" onclick="showCategoryIframe('eurobasketIframe', 'https://www.youtube.com/live/CUIFbGGYOLM?si=-fLOfdz1bflFWVaC')">15:30 Τσεχία - Ουκρανία</div>
+    <div class="match" onclick="showCategoryIframe('eurobasketIframe', 'https://www.youtube.com/live/jSjTX5q2uUY?si=h8ch4FYvf8O8ieFs')">18:00 Φινλανδία - Βέλγιο</div>
+    <div class="match" onclick="showCategoryIframe('eurobasketIframe', 'https://www.youtube.com/live/ID7zPkQpMhU?si=n93-jQbgFlNq9Lcs')">20:30 Πολωνία - Γερμανία</div>
+
+    <div id="eurobasketIframe" class="iframe-wrapper" style="display:none;">
+      <button class="close-btn" onclick="closeIframe('eurobasketIframe')">✖</button>
+      <iframe src="" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <div class="category" id="hopman">
+    <h2>Hopman Cup - Τένις</h2>
+    <div class="match" onclick="showCategoryIframe('hopmanIframe', 'https://www.thedaddy.click/stream/stream-168.php')">20:00 Τσιτσιπάς - Μπαουτίστα</div>
+    <div id="hopmanIframe" class="iframe-wrapper" style="display:none;">
+      <button class="close-btn" onclick="closeIframe('hopmanIframe')">✖</button>
+      <iframe src="" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <div class="category" id="gstaad">
+    <h2>Τένις Ανδρών - Gstaad</h2>
+    <div class="match" onclick="showCategoryIframe('gstaadIframe', 'https://www.thedaddy.click/stream/stream-627.php')">Αγώνας Gstaad</div>
+    <div id="gstaadIframe" class="iframe-wrapper" style="display:none;">
+      <button class="close-btn" onclick="closeIframe('gstaadIframe')">✖</button>
+      <iframe src="" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <div class="category" id="filika">
+    <h2>Φιλικά Ποδοσφαίρου</h2>
+    <div class="match" onclick="showCategoryIframe('filikaIframe', 'https://stokourbeti.online/kourbetitv/tv2/')">20:00 Άρης - Ανόρθωση</div>
+    <div class="match" onclick="showCategoryIframe('filikaIframe', 'https://stokourbeti.online/kourbetitv/tv3/')">21:00 ΑΕΚ - Ομόνοια Λευκωσίας</div>
+    <div id="filikaIframe" class="iframe-wrapper" style="display:none;">
+      <button class="close-btn" onclick="closeIframe('filikaIframe')">✖</button>
+      <iframe src="" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <div class="category" id="europa">
+    <h2>Προκριματικά Europa League</h2>
+    <div class="match" onclick="showCategoryIframe('europaIframe', 'https://stokourbeti.online/kourbetitv/tv1/')">22:00 Παρτιζάν - ΑΕΚ Λάρνακας</div>
+    <div id="europaIframe" class="iframe-wrapper" style="display:none;">
+      <button class="close-btn" onclick="closeIframe('europaIframe')">✖</button>
+      <iframe src="" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <div class="category" id="tourdefrance">
+    <h2>Tour De France</h2>
+    <div class="match" onclick="showCategoryIframe('tourdefranceIframe', 'https://foothubhd.online/cast/1/eurosport1gr.php')">Παρακολούθησε στο Eurosport 1</div>
+    <div id="tourdefranceIframe" class="iframe-wrapper" style="display:none;">
+      <button class="close-btn" onclick="closeIframe('tourdefranceIframe')">✖</button>
+      <iframe src="" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <div class="category" id="nba-lasvegas">
+    <h2>NBA Las Vegas Summer League</h2>
+    <div class="match" onclick="showCategoryIframe('nbaIframe', 'https://vipstand.pm/sports/basketball/watch-miami-heat-vs-detroit-pistons-live')">23:00 Μαϊάμι Χιτ - Ντιτρόιτ Πίστονς</div>
+    <div class="match" onclick="showCategoryIframe('nbaIframe', 'https://vipstand.pm/sports/basketball/watch-new-york-knicks-vs-indiana-pacers-live')">23:30 Νιου Γιορκ Νικς - Ιντιάνα Πέισερς</div>
+    <div class="match" onclick="showCategoryIframe('nbaIframe', 'https://vipstand.pm/sports/basketball/watch-memphis-grizzlies-vs-atlanta-hawks-live')">01:00 Μέμφις Γκρίζλις - Ατλάντα Χοκς</div>
+    <div class="match" onclick="showCategoryIframe('nbaIframe', 'https://vipstand.pm/sports/basketball/watch-charlotte-hornets-vs-san-antonio-spurs-live')">02:00 Χόρνετς - Σαν Αντόνιο Σπερς</div>
+    <div class="match" onclick="showCategoryIframe('nbaIframe', 'https://vipstand.pm/sports/basketball/watch-portland-trail-blazers-vs-houston-rockets-live')">03:00 Πόρτλαντ Μπλέιζερς - Χιούστον Ρόκετς</div>
+    <div class="match" onclick="showCategoryIframe('nbaIframe', 'https://vipstand.pm/sports/basketball/watch-los-angeles-lakers-vs-boston-celtics-live')">04:00 Λος Άντζελες Λέικερς - Μπόστον Σέλτικς</div>
+    <div class="match" onclick="showCategoryIframe('nbaIframe', 'https://vipstand.pm/sports/basketball/watch-toronto-raptors-vs-golden-state-warriors-live')">05:00 Τορόντο Ράπτορς - Γκόλντεν Στέιτ Ουόριορς</div>
+    <div class="match" onclick="showCategoryIframe('nbaIframe', 'https://vipstand.pm/sports/basketball/watch-los-angeles-clippers-vs-denver-nuggets-live')">06:00 Λος Άντζελες Κλίπερς - Ντένβερ Νάγκετς</div>
+
+    <div id="nbaIframe" class="iframe-wrapper" style="display:none;">
+      <button class="close-btn" onclick="closeIframe('nbaIframe')">✖</button>
+      <iframe src="" allowfullscreen></iframe>
+    </div>
+  </div>
+
+</body>
+</html>
